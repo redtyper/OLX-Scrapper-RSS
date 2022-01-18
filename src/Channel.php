@@ -233,6 +233,8 @@ class Channel implements ChannelInterface
             $image->addChild('title', $this->image->title);
             $image->addChild('link', $this->image->link);
         }
+
+        //
         if ($this->updatePeriod) {
             $xml->addChild("xmlns:sy:updatePeriod", $this->updatePeriod);
         }
