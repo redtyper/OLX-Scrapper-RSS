@@ -56,6 +56,26 @@ class Channel implements ChannelInterface
     }
 
     /**
+     * Set channel image
+     * 
+     * The url is the image URL.
+     * The title is used as the alt attribute if the image is used in HTML.
+     * The link should be the URL of the site.
+     * 
+     * @param string $url
+     * @param string $title
+     * @param string $link
+     * @return $this
+     */
+    public function image($url, $title, $link)
+    {
+        $this->image = (object) [];
+        $this->image->url = $url;
+        $this->image->title = $title;
+        $this->image->link = $link;
+        return $this;
+    }
+    /**
      * Set channel URL
      * @param string $url
      * @return $this
@@ -207,6 +227,12 @@ class Channel implements ChannelInterface
             $xml->addChild('language', $this->language);
         }
 
+        if ($this->image !== null) {
+            $image = $xml->addChild('image');
+            $image->addChild('url', $this->image->url);
+            $image->addChild('title', $this->image->title);
+            $image->addChild('link', $this->image->link);
+        }
         if ($this->updatePeriod) {
             $xml->addChild("xmlns:sy:updatePeriod", $this->updatePeriod);
         }
