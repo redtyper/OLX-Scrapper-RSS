@@ -93,9 +93,9 @@ error_reporting(E_ALL & ~E_NOTICE);
           } elseif (strpos($date, 'wczoraj')) {
             $date = strftime('%e %b', strtotime('-1 days'));
           }
-          if($article->find('.linkWithHash img', 0)->plaintext != ''){
-          $item[$j]->url($article->find('.linkWithHash img', 0)->href, '#', true);
-          $item[$j]->link($article->find('.linkWithHash img', 0)->href);
+          // if($article->find('.linkWithHash img', 0)->plaintext != ''){
+          // $item[$j]->url($article->find('.linkWithHash img', 0)->href, '#', true);
+          // $item[$j]->link($article->find('.linkWithHash img', 0)->href);
 
           }
           $item[$j]->description('
