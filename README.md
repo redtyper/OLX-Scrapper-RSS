@@ -31,3 +31,9 @@ Username : itdevweb.pl
 Pass : Honda4ever#
 Path: /public_html/itdexter.pl/olx-rss/
 ```
+
+## Uzyto
+
+HTML/CSS/PHP<br />
+Bhaktaraz RSSGenerator (https://github.com/bhaktaraz/php-rss-generator)<br />
+PHP Simple HTML DOM Parser (http://simplehtmldom.sourceforge.net)<br />
