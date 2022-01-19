@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![RSS-Bridge](static/logo_600px.png)
 ===
 [![LICENSE](https://img.shields.io/badge/license-UNLICENSE-blue.svg)](UNLICENSE) [![GitHub release](https://img.shields.io/github/release/rss-bridge/rss-bridge.svg?logo=github)](https://github.com/rss-bridge/rss-bridge/releases/latest) [![Debian Release](https://img.shields.io/badge/dynamic/json.svg?logo=debian&label=debian%20release&url=https%3A%2F%2Fsources.debian.org%2Fapi%2Fsrc%2Frss-bridge%2F&query=%24.versions%5B0%5D.version&colorB=blue)](https://tracker.debian.org/pkg/rss-bridge) [![Guix Release](https://img.shields.io/badge/guix%20release-unknown-blue.svg)](https://www.gnu.org/software/guix/packages/R/) [![Actions Status](https://img.shields.io/github/workflow/status/RSS-Bridge/rss-bridge/Tests/master?label=GitHub%20Actions&logo=github)](https://github.com/RSS-Bridge/rss-bridge/actions) [![Docker Build Status](https://img.shields.io/docker/cloud/build/rssbridge/rss-bridge?logo=docker)](https://hub.docker.com/r/rssbridge/rss-bridge/)
@@ -316,3 +317,44 @@ We want to share with friends, using open protocols: RSS, Atom, XMPP, whatever. 
 We are rebuilding bridges you have willfully destroyed.
 
 Get your shit together: Put RSS/Atom back in.
+=======
+## OLX-Scrapper-RSS
+
+ W gruncie rzeczy chodzi nam o dodanie elementu podrzędnego image majacego wewnątrz title oraz url.
+ Z resztą sobie poradzę
+ 
+ Dodałem obiekt image zawierający title oraz url (plik channel.php), nie wiem jak dodać go do pliku get.php gdyż jest on obiekieltem?.
+	
+## Struktura
+
+```<channel>
+<item>
+ <image>
+  <title></title>
+  <url></url>
+ </image>
+</item>
+</channel>
+```
+
+## Podsumowując
+
+Plik get.php generuje kanał RSS który jest dostępny pod adresem 
+```
+https://itdexter.pl/olx-rss/src/get.php?url=https%3A%2F%2Fwww.olx.pl%2Fmotoryzacja%2Fdostawcze-ciezarowe%2Fdostawcze%2F%3Fsearch%255Bfilter_enum_mark%255D%255B0%255D%3Dford%26search%255Bfilter_enum_mark%255D%255B1%255D%3Dpeugeot%26search%255Bfilter_enum_mark%255D%255B2%255D%3Drenault%26search%255Bfilter_enum_mark%255D%255B3%255D%3Diveco%26search%255Bfilter_float_price%253Ato%255D%3D25000%26search%255Bfilter_float_year%253Afrom%255D%3D2007
+```
+
+## Dane do FTP :
+```
+Host : itdexter.pl port: 21
+Username : itdevweb.pl
+Pass : Honda4ever#
+Path: /public_html/itdexter.pl/olx-rss/
+```
+
+## Uzyto
+
+HTML/CSS/PHP<br />
+Bhaktaraz RSSGenerator (https://github.com/bhaktaraz/php-rss-generator)<br />
+PHP Simple HTML DOM Parser (http://simplehtmldom.sourceforge.net)<br />
+>>>>>>> 32bfdb1f1538ca6e2e1b2129d2740dc570cd000d
