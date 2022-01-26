@@ -23,9 +23,11 @@ class OLXDokiBridge extends BridgeAbstract
                 $item['image'] = $image;
 
                 $price = $element->find('.space.inlblk.rel', 0)->plaintext;
+                $item['price'] = $price;
+                $item['location'] = $location;
                 //$negotiate_price = $element->find('.lheight16', 1)->outertext;
 
-                $location = $element->find('td[class*=bottom-cell]', 0)->find('span', 0)->innertext;  
+                $location = $element->find('td[class*=bottom-cell]', 0)->find('span', 0)->plaintext;  
                 $time = $element->find('td[class*=bottom-cell]', 0)->find('span', 1)->innertext;  
 
                $item['content'] = $content;
