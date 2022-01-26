@@ -179,6 +179,14 @@ class FeedItem {
 		return $this->title;
 	}
 
+	public function getPrice() {
+		return $this->price;
+	}
+	public function getLocation() {
+		return $this->location;
+	}
+
+
 	/**
 	 * Set title.
 	 *
@@ -200,7 +208,21 @@ class FeedItem {
 
 		return $this;
 	}
+	public function getImage() {
+		return $this->image;
+	}
 
+	public function setImage($image) {
+		$this->image = $image;
+		}
+		public function setPrice($price) {
+			 $this->price = $price;
+		}
+	
+		public function setLocation($location) {
+			$this->location = $location;
+			}
+		
 	/**
 	 * Get current timestamp.
 	 *
@@ -487,6 +509,9 @@ class FeedItem {
 		switch($name) {
 			case 'uri': $this->setURI($value); break;
 			case 'title': $this->setTitle($value); break;
+			case 'image' : $this->setImage($value); break;
+			case 'price' : $this->setPrice($value); break;
+			case 'location' : $this->setLocation($value); break;
 			case 'timestamp': $this->setTimestamp($value); break;
 			case 'author': $this->setAuthor($value); break;
 			case 'content': $this->setContent($value); break;
@@ -510,6 +535,9 @@ class FeedItem {
 		switch($name) {
 			case 'uri': return $this->getURI();
 			case 'title': return $this->getTitle();
+			case 'image': return $this->getImage();
+			case 'price': return $this->getPrice();
+			case 'location': return $this->getLocation();
 			case 'timestamp': return $this->getTimestamp();
 			case 'author': return $this->getAuthor();
 			case 'content': return $this->getContent();
