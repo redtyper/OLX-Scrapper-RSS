@@ -1,81 +1,69 @@
 <?php
-
 class OLXDokiBridge extends BridgeAbstract
 {
-    const MAINTAINER = 'RedTyper';
-    const NAME = 'OLXDoki';
-    const URI = '';
-    const DESCRIPTION = 'Powiadomienia o nowych dostawczakach';
-    //  const PARAMETERS = array(); // Can be omitted!
-    const CACHE_TIMEOUT = 0; // Can be omitted!
+   const MAINTAINER = 'qwertygc';
+    const NAME = 'OLXNow';
+    const URI = 'https://www.olx.pl/';
+    const CACHE_TIMEOUT = 0;
+    const DESCRIPTION = 'Push Notification from new ads on OLX';
 
-    public function collectData()
-    {
+    public function collectData(){
+        $html = getSimpleHTMLDOM(self::URI . 'motoryzacja/dostawcze-ciezarowe/dostawcze/?search%5Bfilter_enum_mark%5D%5B0%5D=ford&search%5Bfilter_enum_mark%5D%5B1%5D=peugeot&search%5Bfilter_enum_mark%5D%5B2%5D=renault&search%5Bfilter_enum_mark%5D%5B3%5D=iveco&search%5Bfilter_float_price%3Ato%5D=25000&search%5Bfilter_float_year%3Afrom%5D=2007');
 
-        $feed_url = 'https://www.olx.pl/motoryzacja/dostawcze-ciezarowe/dostawcze/?search%5Bfilter_enum_mark%5D%5B0%5D=ford&search%5Bfilter_enum_mark%5D%5B1%5D=peugeot&search%5Bfilter_enum_mark%5D%5B2%5D=renault&search%5Bfilter_enum_mark%5D%5B3%5D=iveco';
-        $item = getSimpleHTMLDOM($feed_url)
-        or returnServerError('Unable to get changelog data from "' . $feed_url . '"!');
+        $limit = 0;
 
-            foreach ($item->find('#offers_table .wrap') as $article) {
+        foreach($html->find('table[summary="Ogłoszenie"]') as $element) {
+            
                 $item = array();
-                    if ($article->find('.detailsLink strong', 0)->plaintext != '') {
-                        $item['title'] = $article->find('.detailsLink strong', 0)->plaintext;
-                        $item['image'] = $article->find('.linkWithHash img', 0)->attr['src'];
-                    if (strpos($article->find('.detailsLink', 0)->href, 'https://www.otomoto.pl') !== false) {
-                        $item['url'] = $article->find('.detailsLink', 0)->href;
-                        $item['uid'] = $article->find('.detailsLink', 0)->href;
-                    } else {
-                        $item['url'] = (strstr($article->find('.detailsLink', 0)->href, '#', true));
-                        $item['uid'] = (strstr($article->find('.detailsLink', 0)->href, '#', true));
-                    }
-                    } else {
-                        $item['title'] = $article->find('.detailsLinkPromoted strong', 0)->plaintext;
-                        $item['image'] = $article->find('.linkWithHash img', 0)->attr['src'];
-                    if (strpos($article->find('.detailsLinkPromoted', 0)->href, 'https://www.otomoto.pl') !== false) {
-                        $item['url'] = $article->find('.detailsLinkPromoted', 0)->href;
-                        $item['uid'] = $article->find('.detailsLinkPromoted', 0)->href;
+                $item['title'] = $element->find('a[data-cy=listing-ad-title]', 0)->innertext;
+                $item['uri'] = $element->find('a[data-cy=listing-ad-title]', 0)->href;
+                $item['timestamp'] = time();
 
-                    } else {
-                        $item['url'] = (strstr($article->find('.detailsLinkPromoted', 0)->href, '#', true));
-                        $item['uid'] = (strstr($article->find('.detailsLinkPromoted', 0)->href, '#', true));
-                    }}
+                $image = $element->find('a[class*=thumb]', 0)->find('img', 0)->src;
+                $item['image'] = $image;
 
-                $item['price'] = $article->find('.price', 0)->plaintext;
+                $price = $element->find('.space.inlblk.rel', 0)->plaintext;
+                //$negotiate_price = $element->find('.lheight16', 1)->outertext;
 
-                $bcell = $article->find('td.bottom-cell')[0];
+                $location = $element->find('td[class*=bottom-cell]', 0)->find('span', 0)->innertext;  
+                $time = $element->find('td[class*=bottom-cell]', 0)->find('span', 1)->innertext;  
 
-                $item['location'] = $bcell->find('.breadcrumb', 0)->plaintext;
+               $item['content'] = $content;
+              // $content =  str_replace("\r\n","",$description);;
+               $content = '<style>table.greyGridTable {
+                border: 2px solid #FFFFFF;
+                width: 100%;
+                text-align: center;
+                border-collapse: collapse;
+              }
+              table.greyGridTable td, table.greyGridTable th {
+                border: 1px solid #000000;
+                padding: 3px 4px;
+              }
+              table.greyGridTable tbody td {
+                font-size: 13px;
+              }
+              table.greyGridTable tfoot td {
+                font-size: 14px;
+              }</style><table class="greyGridTable">
+              <tr>
+              <th>Cena</th>
+              <th colspan="2">Lokalizacja</th>    
+            </tr>
+            <tr>
+              <td>' .  $price .'</td>
+              <td>' . $location . '</td>
+              <td>'. $time . ' </td>    
+            </tr>
+            <tr>
+            <td><img src="' . $image . '"></td></tr>
+             </table>';
 
-                $item['date'] = $bcell->find('.breadcrumb', 1)->plaintext;
-                    if (strpos($bcell->find('.breadcrumb', 1)->plaintext, 'dzisiaj')) {
-                        $item['date'] = strftime('%e %b');
-                    } elseif (strpos($bcell->find('.breadcrumb', 1)->plaintext, 'wczoraj')) {
-                        $item['date'] = strftime('%e %b', strtotime('-1 days'));
-                    }
-
-                $item['description'] = $item['url'] . $item['location'] . $item['date'] . $item['price'];
-
-			    $image = $article->find('.linkWithHash img', 0)->src;
-
-		        $item['content'] .= '<table cellpadding="10">
-                                        <tbody>
-                                        <tr>
-                                            <td width="300" bgcolor="#eeeeee">
-                                            <a href="'.$item['url'].'" target="_blank">
-                                                <center>
-                                                <img src="' . $image . '">
-                                                </center>
-                                            </a>
-                                            </td>
-                                            <td>
-                                            <p>Miejscowosc: <strong>' . $item['location'] . ',</strong><br> Wystawiono: '.$item['date'].'</p>
-                                            <h1>Cena: '.$item['price'].'</h1>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table><hr>';
-
-		        $this->items[] = $item;
-		}
+                $this->items[] = $item;
+                           
+        }
     }
+ 
 }
+
+  
