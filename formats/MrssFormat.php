@@ -25,7 +25,7 @@
  *   RSS 2.0 feed that works with feed readers that don't support the extension.
  */
 class MrssFormat extends FormatAbstract {
-	const MIME_TYPE = 'application/rss+xml';
+	const MIME_TYPE = 'text/xml';
 
 	const ALLOWED_IMAGE_EXT = array(
 		'.gif', '.jpg', '.png'
@@ -56,7 +56,11 @@ class MrssFormat extends FormatAbstract {
 			$itemUri = $this->xml_encode($item->getURI());
 			$itemContent = $this->xml_encode($this->sanitizeHtml($item->getContent()));
 			$entryID = $item->getUid();
+			$itemImage = $item->getImage();
+			$itemPrice = $item->getPrice();
+			$itemLocation = $item->getLocation();
 			$isPermaLink = 'false';
+			
 
 			if (empty($entryID) && !empty($itemUri)) { // Fallback to provided URI
 				$entryID = $itemUri;
@@ -77,9 +81,10 @@ class MrssFormat extends FormatAbstract {
 			$entryPublished = '';
 			if (!empty($itemTimestamp)) {
 				$entryPublished = '<pubDate>'
-				. $this->xml_encode(gmdate(DATE_RFC2822, $itemTimestamp))
+				. $this->xml_encode(gmdate(DATE_RFC2822, $entryDates))
 				. '</pubDate>';
 			}
+			
 
 			$entryDescription = '';
 			if (!empty($itemContent))
@@ -99,6 +104,24 @@ class MrssFormat extends FormatAbstract {
 				. $category . '</category>'
 				. PHP_EOL;
 			}
+			$entryPrice = '';
+			if (!empty($itemPrice))
+				$entryPrice = '<price>' . $itemPrice . '</price>';
+			
+			$entryLocation = '';
+			if (!empty($itemLocation))
+				$entryLocation = '<location>' . $itemLocation . '</location>';
+			
+			$entryImage = '';
+			if(!empty($item->getImage())) {
+				$entryImage .= <<<EOD
+			<image>
+				<url>{$itemImage}</url>
+				<title>{$entryTitle}</title>
+				<link>{$itemImage}</link>
+			</image>
+	EOD;
+			}	
 
 			$items .= <<<EOD
 
@@ -106,7 +129,9 @@ class MrssFormat extends FormatAbstract {
 		{$entryTitle}
 		{$entryLink}
 		<guid isPermaLink="{$isPermaLink}">{$entryID}</guid>
-		{$entryPublished}
+		{$entryImage}
+		{$entryPrice}
+		{$entryLocation}
 		{$entryDescription}
 		{$entryEnclosures}
 		{$entryCategories}
@@ -117,16 +142,7 @@ EOD;
 
 		$charset = $this->getCharset();
 
-		$feedImage = '';
-		if (!empty($icon) && in_array(substr($icon, -4), self::ALLOWED_IMAGE_EXT)) {
-			$feedImage .= <<<EOD
-		<image>
-			<url>{$icon}</url>
-			<title>{$title}</title>
-			<link>{$uri}</link>
-		</image>
-EOD;
-		}
+			
 
 		/* Data are prepared, now let's begin the "MAGIE !!!" */
 		$toReturn = <<<EOD
