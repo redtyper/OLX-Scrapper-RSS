@@ -27,7 +27,7 @@ body {
 }
 
 a, a:link, a:visited {
-	color: #2196F3;
+	color: #21f33d;
 	text-decoration: none;
 }
 
@@ -40,7 +40,8 @@ a:hover {
 header {
 	margin-top: 40px;
 	text-align: center;
-	color: #1182DB;
+	color: #18db11;
+	margin-bottom: 126px;
 }
 
 header > div.logo {
@@ -107,7 +108,7 @@ input:focus:-ms-input-placeholder { opacity: 0; }
 .searchbar > h3 {
 	font-size: 200%;
 	font-weight: bold;
-	color: #1182DB;
+	color: #18db11;
 	margin-bottom: 10px;
 }
 
@@ -149,7 +150,7 @@ button {
 	margin: 12px auto 0px;
 	border-radius: 4px;
 	border: 1px solid transparent;
-	background: #2196F3 none repeat scroll 0% 0%;
+	background: #05961da4 none repeat scroll 0% 0%;
 	cursor: pointer;
 	width: calc(20% - 4px);
 }
@@ -160,7 +161,7 @@ button.small {
 }
 
 button:hover {
-	background: #49afff;
+	background: #0dfc19;
 }
 
 .description {
@@ -195,7 +196,7 @@ form {
 	line-height: 22px;
 	text-align: center;
 	color: #fff;
-	background-image: radial-gradient(#49afff, #1182DB);
+	background-image: radial-gradient(#14bb0e, #18db11);
 	-webkit-border-radius: 16px;
 	-moz-border-radius: 16px;
 	border-radius: 16px;
