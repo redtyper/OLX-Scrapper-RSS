@@ -2,16 +2,16 @@
 
 
 
-class OLXDokiBridge extends BridgeAbstract
+class OLXKoparkoBridge extends BridgeAbstract
 {
    const MAINTAINER = 'RedTyper';
-    const NAME = 'OLXNow - Truck Damaged';
+    const NAME = 'OLXNow - Damaged Excavator';
     const URI = 'https://www.olx.pl/';
     const CACHE_TIMEOUT = 0;
     const DESCRIPTION = 'Push Notification from new ads on OLX';
 
     public function collectData(){
-        $html = getSimpleHTMLDOM(self::URI . 'motoryzacja/dostawcze-ciezarowe/dostawcze/?search%5Bfilter_enum_mark%5D%5B0%5D=ford&search%5Bfilter_enum_mark%5D%5B1%5D=peugeot&search%5Bfilter_enum_mark%5D%5B2%5D=renault&search%5Bfilter_enum_mark%5D%5B3%5D=iveco&search%5Bfilter_float_price%3Ato%5D=25000&search%5Bfilter_float_year%3Afrom%5D=2007');
+        $html = getSimpleHTMLDOM(self::URI . 'motoryzacja/przyczepy-pojazdy-uzytkowe/pozostale/q-koparko/?search[filter_float_price%3Ato]=35000&search[filter_enum_condition][0]=damaged');
 
         $limit = 0;
 
@@ -27,7 +27,7 @@ class OLXDokiBridge extends BridgeAbstract
                 $content = 'Cena:' . $price . '<br />Lokalizacja:' . $location . '<br />Dodano:' . $time . '<br /><img src="' . $images .'">';
                 
                 $item = array();
-                $item['timestamp'] = time();
+
                 $item['title'] = $title;                            
                 $item['uri'] = $uri;
                 $item['price'] = $price;
@@ -42,8 +42,7 @@ class OLXDokiBridge extends BridgeAbstract
     }
 
     
- 
-}
+  }
 
 
 

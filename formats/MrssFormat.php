@@ -117,8 +117,6 @@ class MrssFormat extends FormatAbstract {
 				$entryImage .= <<<EOD
 			<image>
 				<url>{$itemImage}</url>
-				<title>{$entryTitle}</title>
-				<link>{$itemImage}</link>
 			</image>
 	EOD;
 			}	

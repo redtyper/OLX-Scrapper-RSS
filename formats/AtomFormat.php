@@ -89,7 +89,7 @@ class AtomFormat extends FormatAbstract{
 				. PHP_EOL;
 			}
 
-			$entryThumbnail = $item->thumbnail;
+			$entryThumbnail = $item->image;
 			if (!empty($entryThumbnail))
 				$entryThumbnail = '<media:thumbnail url="' . $this->xml_encode($entryThumbnail) . '"/>';
 
